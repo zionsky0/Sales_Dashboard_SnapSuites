@@ -269,14 +269,25 @@ export const COMPETITOR_BENCHMARK = [
 export const OBJECTION_HANDLING = [
   {
     objection: '"Can you do it cheaper? Another supplier quoted £150."',
-    response: 'Explain that the £150 options are basic iPad ringlights with no physical prints, no on-site attendant, and no custom rear screen. SnapSuites is a full luxury furniture statement piece that produces studio-grade physical prints for guests to take home and keeps guests entertained all evening with personalized screen slideshows.'
+    talkingPoints: [
+      '**Difference in equipment:** £150 booths are cheap iPad ring lights on a tripod with no physical prints, no attendant, and no custom backdrop.',
+      '**Full luxury experience:** SnapSuites is a handcrafted furniture piece that enhances the venue decor and prints studio-grade 6x4 physical photos on the spot.',
+      '**Dual-screen entertainment:** Our personalized rear screen entertains the entire room with guest-of-honour photos and videos all night.'
+    ]
   },
   {
     objection: '"We only need it for 1 hour."',
-    response: 'Explain that 1 hour rushes guests and causes long queues. The 2-Hour or 3-Hour package ensures all 80–120 guests get multiple visits and keeps evening momentum high without feeling rushed.'
+    talkingPoints: [
+      '**Guest pacing:** With 80–120 guests, 1 hour means only 20–25 people get through, leaving most guests disappointed.',
+      '**Evening momentum:** 3 hours (7pm–10pm) allows guests to arrive, eat, relax, and visit multiple times as the party hits peak energy.',
+      '**Setup included:** Our pricing includes full early setup, take-down, and a friendly on-site attendant.'
+    ]
   },
   {
     objection: '"Is the rear screen personalized for free?"',
-    response: 'Yes! The rear screen slideshow can feature photos and videos of the guest of honour, engagement story, or brand logos throughout the entire evening at no extra hassle.'
+    talkingPoints: [
+      '**100% complimentary:** We preload your photos, engagement memories, or logos to display on the back screen all evening.',
+      '**Live slideshow:** Guests standing around the bar or dance floor can watch the reel even when not directly in the photo booth.'
+    ]
   }
 ];
