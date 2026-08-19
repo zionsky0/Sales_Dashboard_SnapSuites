@@ -31,6 +31,7 @@ import {
   pullFromSupabase,
   pushToSupabase,
   triggerSupabaseAutoPush,
+  subscribeToSupabaseRealtime,
   cleanSupabaseUrl,
   SUPABASE_SQL_SETUP
 } from './utils/supabaseClient.js';
@@ -123,6 +124,16 @@ async function init() {
           render();
           console.log('[SnapSuites Supabase] Synchronized with Supabase Cloud.');
         }
+
+        // Setup real-time listener across all devices
+        subscribeToSupabaseRealtime(() => {
+          leads = getStoredLeads();
+          prospects = getStoredProspects();
+          directory = getStoredDirectory();
+          socialPosts = getStoredSocialPosts();
+          settings = getStoredSettings();
+          render();
+        });
       } catch (err) {
         console.warn('[SnapSuites Supabase] Cloud sync note:', err.message);
       }
@@ -1144,6 +1155,29 @@ function attachLoginListeners() {
         if (result.success) {
           isLoginLoading = false;
           loginErrorMessage = '';
+
+          // Pull latest cloud state immediately on login
+          try {
+            const syncRes = await pullFromSupabase();
+            if (syncRes.success && syncRes.data) {
+              leads = getStoredLeads();
+              prospects = getStoredProspects();
+              directory = getStoredDirectory();
+              socialPosts = getStoredSocialPosts();
+              settings = getStoredSettings();
+            }
+            subscribeToSupabaseRealtime(() => {
+              leads = getStoredLeads();
+              prospects = getStoredProspects();
+              directory = getStoredDirectory();
+              socialPosts = getStoredSocialPosts();
+              settings = getStoredSettings();
+              render();
+            });
+          } catch (err) {
+            console.warn('[Post-Login Sync]', err);
+          }
+
           confetti({ particleCount: 60, spread: 70, origin: { y: 0.6 } });
           showToast('⚡ Welcome to SnapSuites VIP Portal!');
           render();

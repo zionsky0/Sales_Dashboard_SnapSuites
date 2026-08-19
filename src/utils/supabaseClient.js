@@ -46,12 +46,14 @@ export function cleanSupabaseUrl(rawUrl) {
   return url.replace(/\/+$/, '');
 }
 
+export const DEFAULT_SUPABASE_URL = 'https://yokejsxbmoffrskbrdnl.supabase.co';
+
 /**
  * Initialize or get active Supabase client instance
  */
 export function getSupabaseClient(customUrl, customKey) {
   const settings = getStoredSettings();
-  const rawUrl = customUrl || settings.supabaseUrl || (typeof import.meta !== 'undefined' && import.meta.env?.VITE_SUPABASE_URL) || '';
+  const rawUrl = customUrl || settings.supabaseUrl || (typeof import.meta !== 'undefined' && import.meta.env?.VITE_SUPABASE_URL) || DEFAULT_SUPABASE_URL;
   const key = customKey || settings.supabaseKey || (typeof import.meta !== 'undefined' && import.meta.env?.VITE_SUPABASE_ANON_KEY) || '';
   const url = cleanSupabaseUrl(rawUrl);
 
@@ -203,10 +205,57 @@ export async function pushToSupabase(customUrl, customKey) {
  */
 export function triggerSupabaseAutoPush() {
   const settings = getStoredSettings();
-  if (settings.supabaseUrl && settings.supabaseKey) {
+  const url = settings.supabaseUrl || (typeof import.meta !== 'undefined' && import.meta.env?.VITE_SUPABASE_URL) || '';
+  const key = settings.supabaseKey || (typeof import.meta !== 'undefined' && import.meta.env?.VITE_SUPABASE_ANON_KEY) || '';
+
+  if (url && key) {
     clearTimeout(window.__supabaseSyncTimer);
     window.__supabaseSyncTimer = setTimeout(() => {
-      pushToSupabase(settings.supabaseUrl, settings.supabaseKey);
-    }, 500);
+      pushToSupabase(url, key);
+    }, 400);
+  }
+}
+
+let realtimeChannel = null;
+
+/**
+ * Subscribe to live realtime Postgres changes on Supabase
+ */
+export function subscribeToSupabaseRealtime(onUpdate) {
+  const client = getSupabaseClient();
+  if (!client) return;
+
+  try {
+    if (realtimeChannel) {
+      client.removeChannel(realtimeChannel);
+    }
+
+    realtimeChannel = client
+      .channel('snapsuites_realtime_sync')
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'snapsuites_data',
+          filter: 'id=eq.main_store'
+        },
+        (payload) => {
+          if (payload.new && payload.new.data) {
+            const { leads, prospects, directory, socialPosts } = payload.new.data;
+            if (Array.isArray(leads)) saveLeads(leads, false);
+            if (Array.isArray(prospects)) saveProspects(prospects, false);
+            if (Array.isArray(directory) && directory.length) saveDirectory(directory, false);
+            if (Array.isArray(socialPosts)) saveSocialPosts(socialPosts, false);
+
+            if (typeof onUpdate === 'function') {
+              onUpdate(payload.new.data);
+            }
+          }
+        }
+      )
+      .subscribe();
+  } catch (err) {
+    console.warn('[Supabase Realtime] Realtime subscription note:', err.message);
   }
 }
