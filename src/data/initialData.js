@@ -121,177 +121,10 @@ export const PROSPECT_STATUSES = [
   { id: 'not_interested', name: 'Not Interested', color: '#6B7280', icon: '⚪' }
 ];
 
-export const INITIAL_PROSPECTS = [
-  {
-    id: 'prospect-1',
-    name: 'Peckforton Castle Events Team',
-    contactPerson: 'Claire Higgins (Wedding Coordinator)',
-    category: 'Wedding Venue Partner',
-    location: 'Tarporley, Cheshire',
-    preferredChannel: 'Email',
-    contactEmail: 'weddings@peckfortoncastle.co.uk',
-    contactPhone: '01829 260901',
-    status: 'initial_outreach',
-    nextActionDate: '2026-08-25',
-    notes: 'Sent luxury brochure email proposing SnapSuites photobooth for their recommended supplier list.',
-    targetPackage: 'birthday-3h'
-  },
-  {
-    id: 'prospect-2',
-    name: 'Victoria Warehouse Event Management',
-    contactPerson: 'Alex Turner',
-    category: 'Corporate & Party Venue',
-    location: 'Trafford Park, Manchester',
-    preferredChannel: 'Phone',
-    contactEmail: 'events@victoriawarehouse.com',
-    contactPhone: '0161 660 7000',
-    status: 'not_contacted',
-    nextActionDate: '2026-08-21',
-    notes: 'High-volume venue for large corporate Christmas parties and 30th birthday galas.',
-    targetPackage: 'corporate-custom'
-  },
-  {
-    id: 'prospect-3',
-    name: 'Jessica M. (30th Birthday Host)',
-    contactPerson: 'Jessica Myers',
-    category: 'Private Party Host',
-    location: 'Didsbury, Manchester',
-    preferredChannel: 'Instagram DM',
-    contactEmail: 'jess.myers30@example.com',
-    contactPhone: '07788 123456',
-    status: 'followup_sent',
-    nextActionDate: '2026-08-22',
-    notes: 'Inquired via Instagram DM for Nov 2026 birthday. Sent quote for 2-Hour Digital Package (£250).',
-    targetPackage: 'digital-2h'
-  },
-  {
-    id: 'prospect-4',
-    name: 'Grantley Hall Luxury Weddings',
-    contactPerson: 'Rebecca Vance (Events Mgr)',
-    category: 'Wedding Venue Partner',
-    location: 'Ripon, North Yorkshire',
-    preferredChannel: 'Email',
-    contactEmail: 'events@grantleyhall.co.uk',
-    contactPhone: '01765 620070',
-    status: 'not_contacted',
-    nextActionDate: '2026-08-24',
-    notes: 'Ultra-luxury 5-star venue in Yorkshire. Perfect match for SnapSuites mahogany vintage aesthetic.',
-    targetPackage: 'birthday-3h'
-  }
-];
-
-export const INITIAL_LEADS = [
-  {
-    id: 'lead-1',
-    clientName: 'Chris',
-    contactEmail: 'chris.event2027@example.com',
-    contactPhone: '07700 900123',
-    eventType: 'Birthday Celebration',
-    eventDate: '2027-06-19',
-    eventTime: '19:00 - 22:00',
-    recommendedTiming: '7pm–10pm',
-    venue: 'Bark Enquiry (Manchester / Cheshire)',
-    source: 'Bark',
-    packageId: 'birthday-3h',
-    backdrop: 'burgundy',
-    guestCount: 80,
-    dealValue: 350,
-    stage: 'quote_sent',
-    notes: 'Inquired via Bark for Birthday celebration on Sat 19th June 2027. Sent 3-Hour Birthday Package quote (£350) with recommended 7pm-10pm sweet spot.',
-    addOns: ['rear_screen_custom'],
-    commissionRate: 10,
-    createdAt: '2026-08-19T10:15:00Z',
-    lastContactDate: '2026-08-19T11:30:00Z'
-  },
-  {
-    id: 'lead-2',
-    clientName: 'Sarah & Mark',
-    contactEmail: 'sarah.m.wedding@example.co.uk',
-    contactPhone: '07891 234567',
-    eventType: 'Wedding',
-    eventDate: '2027-08-14',
-    eventTime: '19:30 - 23:30',
-    recommendedTiming: '7:30pm–11:30pm',
-    venue: 'Peckforton Castle, Tarporley, Cheshire',
-    source: 'Bridebook',
-    packageId: 'birthday-3h',
-    backdrop: 'ivory',
-    guestCount: 120,
-    dealValue: 465,
-    stage: 'secured',
-    notes: '3-Hour Birthday/Wedding package (£350) + Extra Hour (£75) + Luxury Memory Guestbook (£40). £100 deposit paid. Ivory curtain backdrop selected.',
-    addOns: ['extra_hour', 'guestbook'],
-    commissionRate: 12,
-    createdAt: '2026-08-10T14:20:00Z',
-    lastContactDate: '2026-08-15T09:00:00Z'
-  },
-  {
-    id: 'lead-3',
-    clientName: 'Aethel Technology Gala',
-    contactEmail: 'events@aetheltech.co.uk',
-    contactPhone: '0113 496 0888',
-    eventType: 'Corporate Gala',
-    eventDate: '2026-12-04',
-    eventTime: '18:30 - 22:30',
-    recommendedTiming: '6:30pm–10:30pm',
-    venue: 'Royal Armouries, Leeds',
-    source: 'Direct Website',
-    packageId: 'corporate-custom',
-    backdrop: 'burgundy',
-    guestCount: 200,
-    dealValue: 625,
-    stage: 'negotiation',
-    notes: 'Annual corporate celebration. Requires custom logo on print strips & custom company slideshow loop on rear screen. Holding date for invoice sign-off.',
-    addOns: ['rear_screen_custom', 'neon_sign', 'extra_prints'],
-    commissionRate: 15,
-    createdAt: '2026-08-12T16:45:00Z',
-    lastContactDate: '2026-08-18T16:00:00Z'
-  },
-  {
-    id: 'lead-4',
-    clientName: 'Victoria Hastings',
-    contactEmail: 'victoria.h21@example.com',
-    contactPhone: '07712 345678',
-    eventType: '21st Birthday',
-    eventDate: '2026-11-20',
-    eventTime: '20:00 - 22:00',
-    recommendedTiming: '8pm–10pm',
-    venue: 'Revolucion de Cuba, Manchester',
-    source: 'Instagram DM',
-    packageId: 'digital-2h',
-    backdrop: 'burgundy',
-    guestCount: 50,
-    dealValue: 250,
-    stage: 'new',
-    notes: 'Asked via Instagram about 2-hour photobooth hire for her 21st party. Wants burgundy backdrop and QR digital sharing.',
-    addOns: [],
-    commissionRate: 10,
-    createdAt: '2026-08-19T14:00:00Z',
-    lastContactDate: '2026-08-19T14:00:00Z'
-  },
-  {
-    id: 'lead-5',
-    clientName: 'David & Chloe',
-    contactEmail: 'david.chloe.anniversary@example.com',
-    contactPhone: '07900 888111',
-    eventType: 'Silver Wedding Anniversary',
-    eventDate: '2026-09-12',
-    eventTime: '19:00 - 22:00',
-    recommendedTiming: '7pm–10pm',
-    venue: 'Harrogate Majestic Hotel, Harrogate',
-    source: 'Referral',
-    packageId: 'birthday-3h',
-    backdrop: 'ivory',
-    guestCount: 65,
-    dealValue: 390,
-    stage: 'completed',
-    notes: '3-Hour Package (£350) + Guestbook (£40). Event completed smoothly! Client left 5-star review on Google.',
-    addOns: ['guestbook'],
-    commissionRate: 10,
-    createdAt: '2026-07-01T11:00:00Z',
-    lastContactDate: '2026-09-13T10:00:00Z'
-  }
-];
+// Clean initial data - 0 fake items
+export const INITIAL_PROSPECTS = [];
+export const INITIAL_LEADS = [];
+export const INITIAL_SOCIAL_POSTS = [];
 
 export const OUTREACH_TEMPLATES = [
   {
@@ -329,8 +162,7 @@ We have two main packages available:
 If you have any questions or would like to go ahead, just let me know and we’d be happy to get your date secured.
 
 Best wishes,
-Luca
-SnapSuites Luxury Photobooth Hire
+Founder | SnapSuites
 www.snapsuites.co.uk | bookings@snapsuites.co.uk`
   },
   {
@@ -348,114 +180,103 @@ We recommend a 3-hour hire during your evening reception (typically {TIMING}) wh
 
 Our recommended Wedding & Celebration Package (£350):
 • 3 hours of continuous photobooth hire
-• Unlimited visits & up to 6 high-definition instant physical prints per visit
-• Instant digital sharing via QR code, SMS & Email
-• Premium curated prop collection (stylish & high-end)
-• Luxury Burgundy Velvet or Ivory Satin curtain backdrop
-• Full personalized rear screen photo/video compilation
-• Online digital photo gallery access after the wedding
+• Unlimited visits with high-quality instant physical prints
+• Instant digital phone sharing via QR code, SMS & Email
+• Choice of Burgundy Velvet or Ivory Elegance backdrop
+• Curated luxury props & dedicated on-site attendant
+• Optional Memory Guestbook & Metallic Pens (+£40)
 
-Optional Add-on:
-• Hardcover Memory Guestbook & Metallic Pens (+£40) - where guests paste a print and leave warm wishes for your wedding book!
+Let me know if you would like me to lock in your date!
 
-Would you like us to check exact availability and lock in your wedding date?
-
-Warmest congratulations,
-Luca & The SnapSuites Team
-www.snapsuites.co.uk`
+Warmest regards,
+Founder | SnapSuites
+www.snapsuites.co.uk | bookings@snapsuites.co.uk`
   },
   {
-    id: 'venue-partnership',
-    title: 'Venue / Event Coordinator Cold Pitch',
+    id: 'venue-supplier-intro',
+    title: 'Wedding Venue Supplier Introduction',
     category: 'Venue Outreach',
-    subject: 'Recommended Photobooth Supplier Partnership - SnapSuites (North West & Yorkshire)',
-    body: `Hi {COORDINATOR_NAME},
+    subject: 'Supplier Introduction: SnapSuites Photo Booths x {VENUE_NAME}',
+    body: `Hi {CONTACT_NAME},
 
-I hope you are having a fantastic week.
+I hope you're having a great week.
 
-I’m reaching out from SnapSuites — we specialize in interactive vintage photobooth hire across North West and Yorkshire venues.
+I’m reaching out from SnapSuites (https://www.snapsuites.co.uk/). We provide luxury, aesthetic photo booths across Cheshire and Greater Manchester—specialising in our {BOOTH_STYLE} which fits the aesthetic at {VENUE_NAME} perfectly.
 
-Unlike standard black box photo pods, our booth is styled as a luxury piece of furniture with rich mahogany, brass accents, and a customizable digital rear display screen (perfect for displaying couple photos or company branding).
+We work regularly across the North West, carry full £5M Public Liability Insurance (PLI), and all equipment is fully PAT-tested to meet venue compliance standards.
 
-We’d love to explore being added to your recommended supplier directory for {VENUE_NAME}. We offer venue partners:
-1. Special exclusive rates/upgrades for your clients
-2. Complimentary guestbook setup for venue-managed weddings
-3. Clean, insured (PAT & Public Liability £5M) professional setup
-
-I would love to send over our digital brochure or drop off sample print strips if you’re open to a quick 5-minute chat.
+As couples frequently ask venues for trusted supplier recommendations, could you let me know who manages your recommended vendor list or how we can get our brochure over to your events team?
 
 Best regards,
-Luca
-SnapSuites Photobooth Hire
-www.snapsuites.co.uk`
-  }
-];
 
-export const OBJECTION_HANDLING = [
-  {
-    objection: '"Why choose SnapSuites over a cheaper £150 selfie pod?"',
-    talkingPoints: [
-      '**Statement Furniture Design**: SnapSuites is an interactive vintage luxury booth (mahogany & brass trim) that acts as an eye-catching focal point at luxury venues, not a plastic tripod pod.',
-      '**Dual Screen Experience**: Features a huge personalized interactive rear screen displaying guest of honour photos/videos all night long to entertain waiting guests.',
-      '**High Quality Prints & Lighting**: Studio-grade lighting and instant thermal printing up to 6 prints per turn vs budget webcams.',
-      '**Attendant Service**: Includes professional setup & friendly booth attendant so host doesn\'t worry about paper jams or tech issues.'
-    ]
+Founder | SnapSuites
+[Phone Number] | https://www.snapsuites.co.uk/`
   },
   {
-    objection: '"Is 2 hours or 3 hours better for our event?"',
-    talkingPoints: [
-      '**Sweet Spot Timing**: For evening celebrations starting at 7pm, 7pm–10pm (3 hours) is ideal because guests settle in during hour 1, and the booth peaks during hours 2 & 3 as drinks flow.',
-      '**Digital vs Print**: If you want physical print souvenirs for guests to keep on their fridge (or stick in a guestbook), the 3-Hour £350 package offers maximum value with up to 6 prints per visit.'
-    ]
-  },
-  {
-    objection: '"Can we play custom videos or photo slideshows on the back screen?"',
-    talkingPoints: [
-      '**Yes! Fully Personalised**: You can send us up to 30 photos or short video clips of the birthday host, couple, or brand logo beforehand. We compile and load them so it continuously rotates in high definition behind the booth.'
-    ]
-  },
-  {
-    objection: '"What backdrops do you offer?"',
-    talkingPoints: [
-      '**Burgundy Velvet**: Warm, rich, vintage theatrical vibe. Stunning contrast for glam photo strips.',
-      '**Ivory Elegance**: Timeless, bright, romantic satin curtain backdrop perfect for weddings & classic birthday themes.'
-    ]
+    id: 'planner-collab-intro',
+    title: 'Planner & DJ Collaboration / Preferred Supplier',
+    category: 'Planner Outreach',
+    subject: 'Preferred Supplier / Collaboration: SnapSuites x {COMPANY_NAME}',
+    body: `Hi {CONTACT_NAME},
+
+Hope your event season is going strong.
+
+I’m contacting you from SnapSuites (https://www.snapsuites.co.uk/). We supply high-end photo booths (Vintage Booths, Roamer Booths, Magic Mirrors, and custom backdrops) for luxury weddings and private parties across the North West.
+
+We know how crucial it is to have reliable, professional suppliers on site that make the overall event look incredible. We’d love to connect with {COMPANY_NAME} as a go-to photo booth partner for any upcoming events where your clients need premium photo entertainment.
+
+If you have a moment, take a quick look at our setups on the site, and let me know if you’d like our trade pricing brochure sent over.
+
+Best regards,
+
+SnapSuites | [Phone Number] | https://www.snapsuites.co.uk/`
   }
 ];
 
 export const COMPETITOR_BENCHMARK = [
   {
-    feature: 'Aesthetic & Design',
-    snapsuites: 'Luxury Mahogany & Brass Vintage Furniture',
-    cheapPod: 'Plastic White Ringlight Tripod',
-    magicMirror: 'Large Mirror Frame'
+    feature: 'Physical Aesthetic',
+    snapsuites: 'Luxury vintage handcrafted furniture',
+    cheapPod: 'Basic metal iPad stand with plastic ring light',
+    magicMirror: 'Large mirror frame'
   },
   {
-    feature: 'Interactive Rear Screen',
-    snapsuites: '✅ YES (Displays guest photos/videos all night)',
-    cheapPod: '❌ NO (Blank rear)',
-    magicMirror: '❌ NO'
+    feature: 'Rear Screen Display',
+    snapsuites: 'Interactive personalized photo/video reel all night',
+    cheapPod: 'None (blank plastic casing)',
+    magicMirror: 'None (back is cords & plywood)'
   },
   {
-    feature: 'Print Quality & Copies',
-    snapsuites: 'Dye-Sub Thermal (Up to 6 prints/turn)',
-    cheapPod: 'Digital only or slow inkjet',
-    magicMirror: 'Standard thermal'
+    feature: 'Prints Quality',
+    snapsuites: 'Lab-grade sub-dye instant 6x4 prints (up to 6/visit)',
+    cheapPod: 'Digital only (no physical prints)',
+    magicMirror: 'Standard 1–2 prints'
   },
   {
-    feature: 'Prop Collection',
-    snapsuites: 'Curated Luxury Props (Gold, Velvet, Feather)',
-    cheapPod: 'Basic paper props on sticks',
-    magicMirror: 'Standard props'
+    feature: 'Curated Props & Backdrops',
+    snapsuites: 'Premium velvet curtains & stylish props',
+    cheapPod: 'Tacky paper glasses / inflatable toys',
+    magicMirror: 'Standard prop box'
   },
   {
-    feature: 'Average Price',
-    snapsuites: '£250 - £350 (Premium Value)',
-    cheapPod: '£150 - £200 (Low quality)',
-    magicMirror: '£350 - £450 (Clunky setup)'
+    feature: 'Insurance & PAT Compliance',
+    snapsuites: 'Full £5M PLI & PAT-tested for all luxury venues',
+    cheapPod: 'Often uncertified amateur kit',
+    magicMirror: 'Usually insured'
   }
 ];
 
-export const INITIAL_SOCIAL_POSTS = [];
-
-
+export const OBJECTION_HANDLING = [
+  {
+    objection: '"Can you do it cheaper? Another supplier quoted £150."',
+    response: 'Explain that the £150 options are basic iPad ringlights with no physical prints, no on-site attendant, and no custom rear screen. SnapSuites is a full luxury furniture statement piece that produces studio-grade physical prints for guests to take home and keeps guests entertained all evening with personalized screen slideshows.'
+  },
+  {
+    objection: '"We only need it for 1 hour."',
+    response: 'Explain that 1 hour rushes guests and causes long queues. The 2-Hour or 3-Hour package ensures all 80–120 guests get multiple visits and keeps evening momentum high without feeling rushed.'
+  },
+  {
+    objection: '"Is the rear screen personalized for free?"',
+    response: 'Yes! The rear screen slideshow can feature photos and videos of the guest of honour, engagement story, or brand logos throughout the entire evening at no extra hassle.'
+  }
+];

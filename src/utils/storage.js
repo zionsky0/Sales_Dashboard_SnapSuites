@@ -1,10 +1,10 @@
 import { INITIAL_LEADS, INITIAL_PROSPECTS, INITIAL_SOCIAL_POSTS } from '../data/initialData.js';
 import { INITIAL_DIRECTORY_50 } from '../data/directoryData.js';
 
-const STORAGE_KEY = 'snapsuites_sales_leads_v1';
-const PROSPECT_KEY = 'snapsuites_sales_prospects_v1';
+const STORAGE_KEY = 'snapsuites_sales_leads_clean_v2';
+const PROSPECT_KEY = 'snapsuites_sales_prospects_clean_v2';
 const SETTINGS_KEY = 'snapsuites_sales_settings_v1';
-const SOCIAL_POSTS_KEY = 'snapsuites_social_posts_v2';
+const SOCIAL_POSTS_KEY = 'snapsuites_social_posts_clean_v2';
 const DIRECTORY_KEY = 'snapsuites_target_directory_v1';
 
 export function getStoredDirectory() {
@@ -34,13 +34,12 @@ export function getStoredSocialPosts() {
   try {
     const data = localStorage.getItem(SOCIAL_POSTS_KEY);
     if (!data) {
-      localStorage.setItem(SOCIAL_POSTS_KEY, JSON.stringify(INITIAL_SOCIAL_POSTS));
-      return INITIAL_SOCIAL_POSTS;
+      localStorage.setItem(SOCIAL_POSTS_KEY, JSON.stringify([]));
+      return [];
     }
     return JSON.parse(data);
   } catch (err) {
-    console.error('Error reading stored social posts:', err);
-    return INITIAL_SOCIAL_POSTS;
+    return [];
   }
 }
 
@@ -56,13 +55,12 @@ export function getStoredLeads() {
   try {
     const data = localStorage.getItem(STORAGE_KEY);
     if (!data) {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(INITIAL_LEADS));
-      return INITIAL_LEADS;
+      localStorage.setItem(STORAGE_KEY, JSON.stringify([]));
+      return [];
     }
     return JSON.parse(data);
   } catch (err) {
-    console.error('Error reading stored leads:', err);
-    return INITIAL_LEADS;
+    return [];
   }
 }
 
@@ -78,13 +76,12 @@ export function getStoredProspects() {
   try {
     const data = localStorage.getItem(PROSPECT_KEY);
     if (!data) {
-      localStorage.setItem(PROSPECT_KEY, JSON.stringify(INITIAL_PROSPECTS));
-      return INITIAL_PROSPECTS;
+      localStorage.setItem(PROSPECT_KEY, JSON.stringify([]));
+      return [];
     }
     return JSON.parse(data);
   } catch (err) {
-    console.error('Error reading prospects:', err);
-    return INITIAL_PROSPECTS;
+    return [];
   }
 }
 
@@ -129,11 +126,11 @@ export function saveSettings(settings) {
 }
 
 export function resetToInitialData() {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(INITIAL_LEADS));
-  localStorage.setItem(PROSPECT_KEY, JSON.stringify(INITIAL_PROSPECTS));
-  localStorage.setItem(SOCIAL_POSTS_KEY, JSON.stringify(INITIAL_SOCIAL_POSTS));
+  localStorage.setItem(STORAGE_KEY, JSON.stringify([]));
+  localStorage.setItem(PROSPECT_KEY, JSON.stringify([]));
+  localStorage.setItem(SOCIAL_POSTS_KEY, JSON.stringify([]));
   localStorage.setItem(DIRECTORY_KEY, JSON.stringify(INITIAL_DIRECTORY_50));
-  return { leads: INITIAL_LEADS, prospects: INITIAL_PROSPECTS, directory: INITIAL_DIRECTORY_50 };
+  return { leads: [], prospects: [], directory: INITIAL_DIRECTORY_50 };
 }
 
 export function exportDirectoryAsCSV(directory = []) {
