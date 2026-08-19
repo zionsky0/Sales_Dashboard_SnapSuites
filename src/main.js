@@ -19,6 +19,26 @@ import {
 
 import { isAuthenticated, login, logout, updateCredentials } from './utils/auth.js';
 import { PACKAGES, ADD_ONS, OUTREACH_TEMPLATES, INITIAL_SOCIAL_POSTS } from './data/initialData.js';
+import {
+  testServerConnection,
+  pullFromServer,
+  pushToServer,
+  triggerAutoPush,
+  normalizeServerUrl
+} from './utils/syncClient.js';
+import {
+  testSupabaseConnection,
+  pullFromSupabase,
+  pushToSupabase,
+  triggerSupabaseAutoPush,
+  SUPABASE_SQL_SETUP
+} from './utils/supabaseClient.js';
+
+// Expose global triggers for storage changes
+if (typeof window !== 'undefined') {
+  window.__triggerAutoPush = triggerAutoPush;
+  window.__triggerSupabaseAutoPush = triggerSupabaseAutoPush;
+}
 
 import { renderHeader } from './components/Header.js';
 import { renderLoginGate } from './components/LoginGate.js';
@@ -85,8 +105,45 @@ let editingProspect = null;
 let activePitchPost = null;
 let proposalData = null;
 
-function init() {
+async function init() {
   render();
+
+  if (isAuthenticated()) {
+    // 1. Supabase Cloud Sync (Primary)
+    if (settings.supabaseUrl && settings.supabaseKey) {
+      try {
+        const res = await pullFromSupabase(settings.supabaseUrl, settings.supabaseKey);
+        if (res.success && res.data) {
+          leads = getStoredLeads();
+          prospects = getStoredProspects();
+          directory = getStoredDirectory();
+          socialPosts = getStoredSocialPosts();
+          settings = getStoredSettings();
+          render();
+          console.log('[SnapSuites Supabase] Synchronized with Supabase Cloud.');
+        }
+      } catch (err) {
+        console.warn('[SnapSuites Supabase] Cloud sync note:', err.message);
+      }
+    } 
+    // 2. Playit / Self-Hosted Server fallback
+    else if (settings.serverUrl) {
+      try {
+        const result = await pullFromServer(settings.serverUrl, settings.syncKey);
+        if (result.success && result.data) {
+          leads = getStoredLeads();
+          prospects = getStoredProspects();
+          directory = getStoredDirectory();
+          socialPosts = getStoredSocialPosts();
+          settings = getStoredSettings();
+          render();
+          console.log('[SnapSuites Sync] Successfully synchronized with remote server.');
+        }
+      } catch (err) {
+        console.warn('[SnapSuites Sync] Background sync note:', err.message);
+      }
+    }
+  }
 }
 
 function render() {
@@ -943,6 +1000,12 @@ function attachEventListeners() {
     settings.monthlyTarget = Number(document.getElementById('settings-monthly-target').value) || 3000;
     settings.defaultCommissionRate = Number(document.getElementById('settings-commission-rate').value) || 10;
     
+    // Supabase Cloud Sync config
+    const supabaseUrlInput = document.getElementById('settings-supabase-url')?.value?.trim() || '';
+    const supabaseKeyInput = document.getElementById('settings-supabase-key')?.value?.trim() || '';
+    settings.supabaseUrl = supabaseUrlInput;
+    settings.supabaseKey = supabaseKeyInput;
+
     const newUsername = document.getElementById('settings-new-username')?.value?.trim();
     const newPassword = document.getElementById('settings-new-password')?.value;
     if (newUsername || newPassword) {
@@ -951,9 +1014,88 @@ function attachEventListeners() {
     }
 
     saveSettings(settings);
+
+    // If Supabase configured, push current state
+    if (settings.supabaseUrl && settings.supabaseKey) {
+      pushToSupabase(settings.supabaseUrl, settings.supabaseKey);
+    }
+
     currentModal = null;
-    showToast('⚙️ Settings saved!');
+    showToast('⚙️ Settings & cloud sync saved!');
     render();
+  });
+
+  // Test Connection & Pull Data Button for Supabase
+  document.getElementById('btn-test-supabase-connection')?.addEventListener('click', async () => {
+    const urlInput = document.getElementById('settings-supabase-url')?.value?.trim() || '';
+    const keyInput = document.getElementById('settings-supabase-key')?.value?.trim() || '';
+    const resultBox = document.getElementById('supabase-test-result');
+    const testBtn = document.getElementById('btn-test-supabase-connection');
+
+    if (!urlInput || !keyInput) {
+      if (resultBox) {
+        resultBox.style.display = 'block';
+        resultBox.style.background = 'rgba(239, 68, 68, 0.15)';
+        resultBox.style.border = '1px solid rgba(239, 68, 68, 0.4)';
+        resultBox.style.color = '#FCA5A5';
+        resultBox.innerHTML = '⚠️ Please enter both your Supabase Project URL and Anon API Key.';
+      }
+      return;
+    }
+
+    if (testBtn) {
+      testBtn.disabled = true;
+      testBtn.innerHTML = '⏳ Connecting to Supabase...';
+    }
+
+    const testRes = await testSupabaseConnection(urlInput, keyInput);
+
+    if (testRes.ok) {
+      // Save credentials and pull data
+      settings.supabaseUrl = urlInput;
+      settings.supabaseKey = keyInput;
+      saveSettings(settings, false);
+
+      const pullRes = await pullFromSupabase(urlInput, keyInput);
+      if (pullRes.success) {
+        leads = getStoredLeads();
+        prospects = getStoredProspects();
+        directory = getStoredDirectory();
+        socialPosts = getStoredSocialPosts();
+      }
+
+      if (resultBox) {
+        resultBox.style.display = 'block';
+        resultBox.style.background = 'rgba(16, 185, 129, 0.15)';
+        resultBox.style.border = '1px solid rgba(16, 185, 129, 0.4)';
+        resultBox.style.color = '#6EE7B7';
+        resultBox.innerHTML = `✅ <strong>Connected to Supabase!</strong> 24/7 Cloud sync is active.<br/><span style="font-size: 11px; opacity: 0.85;">Synced ${leads.length} leads & ${directory.length} venue targets with cloud database.</span>`;
+      }
+      confetti({ particleCount: 50, spread: 60, origin: { y: 0.6 } });
+      showToast('⚡ Connected to Supabase Cloud!');
+    } else {
+      if (resultBox) {
+        resultBox.style.display = 'block';
+        resultBox.style.background = 'rgba(239, 68, 68, 0.15)';
+        resultBox.style.border = '1px solid rgba(239, 68, 68, 0.4)';
+        resultBox.style.color = '#FCA5A5';
+        resultBox.innerHTML = `❌ <strong>Connection Notice:</strong> ${testRes.message}`;
+      }
+    }
+
+    if (testBtn) {
+      testBtn.disabled = false;
+      testBtn.innerHTML = '⚡ Connect & Sync Supabase Now';
+    }
+  });
+
+  // Copy Supabase SQL helper button
+  document.getElementById('btn-copy-supabase-sql')?.addEventListener('click', () => {
+    navigator.clipboard.writeText(SUPABASE_SQL_SETUP).then(() => {
+      showToast('📋 SQL copied to clipboard! Paste into Supabase SQL Editor.');
+    }).catch(() => {
+      showToast('📋 Please copy the SQL manually.');
+    });
   });
 
   document.getElementById('btn-cancel-settings')?.addEventListener('click', () => {

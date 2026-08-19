@@ -22,9 +22,13 @@ export function getStoredDirectory() {
   }
 }
 
-export function saveDirectory(items) {
+export function saveDirectory(items, shouldSync = true) {
   try {
     localStorage.setItem(DIRECTORY_KEY, JSON.stringify(items));
+    if (shouldSync && typeof window !== 'undefined') {
+      if (window.__triggerAutoPush) window.__triggerAutoPush();
+      if (window.__triggerSupabaseAutoPush) window.__triggerSupabaseAutoPush();
+    }
   } catch (err) {
     console.error('Error saving directory:', err);
   }
@@ -43,9 +47,13 @@ export function getStoredSocialPosts() {
   }
 }
 
-export function saveSocialPosts(posts) {
+export function saveSocialPosts(posts, shouldSync = true) {
   try {
     localStorage.setItem(SOCIAL_POSTS_KEY, JSON.stringify(posts));
+    if (shouldSync && typeof window !== 'undefined') {
+      if (window.__triggerAutoPush) window.__triggerAutoPush();
+      if (window.__triggerSupabaseAutoPush) window.__triggerSupabaseAutoPush();
+    }
   } catch (err) {
     console.error('Error saving social posts to storage:', err);
   }
@@ -64,9 +72,13 @@ export function getStoredLeads() {
   }
 }
 
-export function saveLeads(leads) {
+export function saveLeads(leads, shouldSync = true) {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(leads));
+    if (shouldSync && typeof window !== 'undefined') {
+      if (window.__triggerAutoPush) window.__triggerAutoPush();
+      if (window.__triggerSupabaseAutoPush) window.__triggerSupabaseAutoPush();
+    }
   } catch (err) {
     console.error('Error saving leads to storage:', err);
   }
@@ -85,9 +97,13 @@ export function getStoredProspects() {
   }
 }
 
-export function saveProspects(prospects) {
+export function saveProspects(prospects, shouldSync = true) {
   try {
     localStorage.setItem(PROSPECT_KEY, JSON.stringify(prospects));
+    if (shouldSync && typeof window !== 'undefined') {
+      if (window.__triggerAutoPush) window.__triggerAutoPush();
+      if (window.__triggerSupabaseAutoPush) window.__triggerSupabaseAutoPush();
+    }
   } catch (err) {
     console.error('Error saving prospects:', err);
   }
@@ -101,25 +117,48 @@ export function getStoredSettings() {
         salesRepName: 'Sales Representative',
         monthlyTarget: 3000,
         defaultCommissionRate: 10,
-        currencySymbol: '£'
+        currencySymbol: '£',
+        serverUrl: '',
+        syncKey: '',
+        supabaseUrl: '',
+        supabaseKey: ''
       };
       localStorage.setItem(SETTINGS_KEY, JSON.stringify(defaultSettings));
       return defaultSettings;
     }
-    return JSON.parse(data);
+    const parsed = JSON.parse(data);
+    return {
+      salesRepName: 'Sales Representative',
+      monthlyTarget: 3000,
+      defaultCommissionRate: 10,
+      currencySymbol: '£',
+      serverUrl: '',
+      syncKey: '',
+      supabaseUrl: '',
+      supabaseKey: '',
+      ...parsed
+    };
   } catch (err) {
     return {
       salesRepName: 'Sales Representative',
       monthlyTarget: 3000,
       defaultCommissionRate: 10,
-      currencySymbol: '£'
+      currencySymbol: '£',
+      serverUrl: '',
+      syncKey: '',
+      supabaseUrl: '',
+      supabaseKey: ''
     };
   }
 }
 
-export function saveSettings(settings) {
+export function saveSettings(settings, shouldSync = true) {
   try {
     localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
+    if (shouldSync && typeof window !== 'undefined') {
+      if (window.__triggerAutoPush) window.__triggerAutoPush();
+      if (window.__triggerSupabaseAutoPush) window.__triggerSupabaseAutoPush();
+    }
   } catch (err) {
     console.error('Error saving settings:', err);
   }
