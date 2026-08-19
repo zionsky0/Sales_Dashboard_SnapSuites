@@ -140,6 +140,19 @@ h1, h2, h3, h4, h5, h6, .font-heading {
   display: flex;
   align-items: center;
   gap: 12px;
+  flex-wrap: wrap;
+}
+
+.header-primary-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.header-icon-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 /* Primary & Secondary Buttons */
@@ -314,6 +327,13 @@ h1, h2, h3, h4, h5, h6, .font-heading {
   border-radius: var(--radius-lg);
   border: 1px solid var(--border-glass);
   overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.tab-nav::-webkit-scrollbar {
+  display: none;
 }
 
 .tab-btn {
@@ -976,6 +996,357 @@ h1, h2, h3, h4, h5, h6, .font-heading {
   border-color: var(--gold-primary) !important;
   background: linear-gradient(135deg, rgba(212, 175, 55, 0.12), rgba(128, 0, 32, 0.15)) !important;
   box-shadow: 0 0 15px rgba(212, 175, 55, 0.2);
+}
+
+/* ==========================================================================
+   Responsive Component Grids & Helpers
+   ========================================================================== */
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.analytics-breakdown-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 24px;
+}
+
+.schedule-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 16px;
+}
+
+.prospects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 20px;
+}
+
+.directory-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.directory-weeks-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 14px;
+}
+
+.directory-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 20px;
+}
+
+.playbook-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: 24px;
+}
+
+.scanner-launchers-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.scanner-feed-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 20px;
+}
+
+/* ==========================================================================
+   Tablet Breakpoint (<= 1024px)
+   ========================================================================== */
+@media (max-width: 1024px) {
+  .quote-builder-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .analytics-breakdown-grid {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .playbook-grid {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+}
+
+/* ==========================================================================
+   Mobile / Phablet Breakpoint (<= 768px)
+   ========================================================================== */
+@media (max-width: 768px) {
+  #app {
+    padding: 14px 12px;
+    gap: 16px;
+  }
+
+  /* Header mobile adaptations */
+  .top-header {
+    padding: 16px 14px;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 14px;
+  }
+
+  .brand-section {
+    width: 100%;
+  }
+
+  .header-actions {
+    width: 100%;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  .header-primary-actions {
+    flex: 1;
+    display: flex;
+    gap: 8px;
+  }
+
+  .header-primary-actions .btn {
+    flex: 1;
+    padding: 10px 8px;
+    font-size: 13px;
+  }
+
+  .header-icon-actions {
+    display: flex;
+    gap: 6px;
+  }
+
+  .header-icon-actions .btn-icon {
+    padding: 10px 12px;
+  }
+
+  /* 2x2 Compact Mobile Metrics Grid */
+  .metrics-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .metric-card {
+    padding: 14px 12px;
+    gap: 6px;
+  }
+
+  .metric-value {
+    font-size: 20px;
+  }
+
+  .metric-title {
+    font-size: 11px;
+  }
+
+  .metric-subtext {
+    font-size: 11px;
+  }
+
+  /* Kanban Horizontal Swipe Carousel on Mobile */
+  .kanban-controls {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .search-filter-group {
+    flex-direction: column;
+    width: 100%;
+    min-width: unset;
+    gap: 8px;
+  }
+
+  .search-filter-group .input-search,
+  .search-filter-group .select-filter {
+    width: 100%;
+    min-height: 42px;
+  }
+
+  .kanban-board {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    gap: 12px;
+    padding-bottom: 12px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+  }
+
+  .kanban-column {
+    min-width: 82vw;
+    max-width: 86vw;
+    flex-shrink: 0;
+    scroll-snap-align: center;
+    min-height: 380px;
+  }
+
+  /* Single-column form layouts */
+  .form-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .packages-selection-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .calculator-panel,
+  .quote-summary-panel {
+    padding: 18px 16px;
+    gap: 18px;
+  }
+
+  /* Mobile Sheet Modals */
+  .modal-overlay {
+    padding: 10px;
+    align-items: flex-end;
+  }
+
+  .modal-container {
+    max-height: 92vh;
+    border-radius: var(--radius-lg);
+  }
+
+  .modal-header {
+    padding: 16px 18px;
+  }
+
+  .modal-body {
+    padding: 16px 18px;
+    gap: 16px;
+  }
+
+  .modal-footer {
+    padding: 14px 18px;
+  }
+
+  /* Proposal PDF/Print Preview */
+  .printable-proposal-card {
+    padding: 18px 14px;
+  }
+
+  .proposal-banner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .proposal-banner > div:last-child {
+    text-align: left;
+  }
+
+  .proposal-image-gallery {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .proposal-img {
+    height: 180px;
+  }
+
+  /* Guide Banner */
+  .guide-hero-banner {
+    padding: 20px 16px !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+  }
+
+  .guide-hero-icon {
+    display: none !important;
+  }
+
+  /* Directory & Radar Grids */
+  .directory-stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .directory-weeks-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .directory-cards-grid,
+  .prospects-grid,
+  .schedule-grid,
+  .scanner-feed-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+}
+
+/* ==========================================================================
+   Small Mobile Phone Breakpoint (<= 480px)
+   ========================================================================== */
+@media (max-width: 480px) {
+  #app {
+    padding: 10px 8px;
+    gap: 12px;
+  }
+
+  .brand-subtitle-text {
+    display: none;
+  }
+
+  .brand-logo-container {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+  }
+
+  .brand-logo-icon {
+    font-size: 22px;
+  }
+
+  .brand-text h1 {
+    font-size: 18px;
+  }
+
+  .metrics-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+
+  .metric-card {
+    padding: 12px 10px;
+  }
+
+  .metric-value {
+    font-size: 18px;
+  }
+
+  .tab-btn {
+    padding: 8px 12px;
+    font-size: 13px;
+    gap: 6px;
+  }
+
+  .kanban-column {
+    min-width: 88vw;
+    max-width: 90vw;
+  }
+
+  .toast-container {
+    bottom: 12px;
+    right: 12px;
+    left: 12px;
+  }
+
+  .toast {
+    width: 100%;
+    font-size: 13px;
+    padding: 12px 14px;
+  }
 }
 
 

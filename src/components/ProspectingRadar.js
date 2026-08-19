@@ -44,7 +44,7 @@ export function renderProspectingRadar(prospects, searchFilter = '', statusFilte
       </div>
 
       <!-- Prospects Data Grid -->
-      <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 20px;">
+      <div class="prospects-grid">
         ${filteredProspects.length === 0 ? `
           <div style="grid-column: 1 / -1; background: var(--bg-card); border: 1px dashed var(--border-light); padding: 40px; text-align: center; border-radius: 16px; color: var(--text-muted);">
             No potential customers found matching filter. Click "Add Potential Customer" to add one!

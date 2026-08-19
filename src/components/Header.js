@@ -13,28 +13,32 @@ export function renderHeader(leads, settings, activeTab) {
         <div class="brand-text">
           <h1>SnapSuites Sales Hub</h1>
           <div class="brand-subtitle">
-            <span>Luxury Photobooth Hire • North West & Yorkshire</span>
+            <span class="brand-subtitle-text">Luxury Photobooth Hire • North West & Yorkshire</span>
             <span class="brand-badge">Sales Rep Portal</span>
           </div>
         </div>
       </div>
 
       <div class="header-actions">
-        <button class="btn btn-gold" id="btn-quick-new-lead">
-          <i>➕</i> New Lead
-        </button>
-        <button class="btn btn-burgundy" id="btn-quick-quote">
-          <i>🧮</i> Instant Quote
-        </button>
-        <button class="btn btn-glass btn-icon" id="btn-settings-trigger" title="Settings">
-          ⚙️
-        </button>
-        <button class="btn btn-glass btn-icon" id="btn-export-trigger" title="Export Backup JSON/CSV">
-          📥
-        </button>
-        <button class="btn btn-glass btn-icon" id="btn-logout-trigger" title="Lock / Logout" style="border-color: rgba(239, 68, 68, 0.4); color: #FCA5A5;">
-          🔒
-        </button>
+        <div class="header-primary-actions">
+          <button class="btn btn-gold" id="btn-quick-new-lead">
+            <i>➕</i> <span>New Lead</span>
+          </button>
+          <button class="btn btn-burgundy" id="btn-quick-quote">
+            <i>🧮</i> <span>Instant Quote</span>
+          </button>
+        </div>
+        <div class="header-icon-actions">
+          <button class="btn btn-glass btn-icon" id="btn-settings-trigger" title="Settings">
+            ⚙️
+          </button>
+          <button class="btn btn-glass btn-icon" id="btn-export-trigger" title="Export Backup JSON/CSV">
+            📥
+          </button>
+          <button class="btn btn-glass btn-icon" id="btn-logout-trigger" title="Lock / Logout" style="border-color: rgba(239, 68, 68, 0.4); color: #FCA5A5;">
+            🔒
+          </button>
+        </div>
       </div>
     </header>
 

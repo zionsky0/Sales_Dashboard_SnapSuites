@@ -20,7 +20,7 @@ export function renderCalendarView(leads) {
       </div>
 
       <!-- Schedule Cards List -->
-      <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px;">
+      <div class="schedule-grid">
         ${sortedLeads.map(lead => {
           const stage = STAGES.find(s => s.id === lead.stage) || { name: lead.stage, color: '#6B7280', icon: '📌' };
           const dateObj = new Date(lead.eventDate);

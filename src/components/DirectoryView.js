@@ -88,7 +88,7 @@ export function renderDirectoryView(
       </div>
 
       <!-- Quick Stats Metrics Row -->
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px;">
+      <div class="directory-stats-grid">
         <div style="background: var(--bg-card); border: 1px solid var(--border-glass); border-radius: var(--radius-lg); padding: 18px; border-left: 4px solid var(--gold-primary);">
           <div style="font-size: 12px; color: var(--text-muted); font-weight: 700; text-transform: uppercase;">Total Target Directory</div>
           <div style="font-size: 24px; font-weight: 800; color: #FFF; margin-top: 4px;">${totalCount} Organizations</div>
@@ -123,7 +123,7 @@ export function renderDirectoryView(
           <span style="font-size: 12px; color: var(--text-muted);">Click a week to filter directory</span>
         </div>
 
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 14px;">
+        <div class="directory-weeks-grid">
           <div class="week-filter-card ${weekFilter === 'Week 1' ? 'active-week-card' : ''}" data-week="Week 1" style="background: rgba(255,255,255,0.03); border: 1px solid ${weekFilter === 'Week 1' ? 'var(--gold-primary)' : 'var(--border-light)'}; border-radius: 12px; padding: 16px; cursor: pointer; transition: all 0.2s ease;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
               <span class="badge" style="background: rgba(212,175,55,0.15); color: var(--gold-primary); font-weight: 800;">WEEK 1 STRATEGY</span>
@@ -233,7 +233,7 @@ export function renderDirectoryView(
       </div>
 
       <!-- Directory Cards Grid -->
-      <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 20px;">
+      <div class="directory-cards-grid">
         ${filtered.length === 0 ? `
           <div style="grid-column: 1 / -1; background: var(--bg-card); border: 1px dashed var(--border-light); padding: 40px; text-align: center; border-radius: var(--radius-lg); color: var(--text-muted);">
             <div style="font-size: 32px; margin-bottom: 10px;">🔍</div>

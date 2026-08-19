@@ -2,7 +2,7 @@ export function renderSalesGuide() {
   return `
     <div style="display: flex; flex-direction: column; gap: 24px;">
       <!-- Hero Header -->
-      <div style="background: linear-gradient(135deg, var(--bg-card-solid), rgba(128,0,32,0.4)); border: 1px solid var(--border-glass); border-radius: var(--radius-xl); padding: 32px; display: flex; justify-content: space-between; align-items: center;">
+      <div class="guide-hero-banner" style="background: linear-gradient(135deg, var(--bg-card-solid), rgba(128,0,32,0.4)); border: 1px solid var(--border-glass); border-radius: var(--radius-xl); padding: 32px; display: flex; justify-content: space-between; align-items: center; gap: 16px;">
         <div>
           <span class="badge" style="background: var(--gold-primary); color: #000; font-weight: 800; font-size: 11px; margin-bottom: 12px;">BEGINNER'S SALES MASTERCLASS</span>
           <h2 style="font-size: 28px; font-weight: 800; color: #FFF; margin-bottom: 8px;">How to Get Started & Close Photobooth Jobs Like a Pro</h2>
@@ -10,7 +10,7 @@ export function renderSalesGuide() {
             Never done sales before? No problem! This step-by-step playbook breaks down exactly where to find high-paying clients, what to say, how to follow up, and how to turn simple conversations into secured £250–£350 bookings.
           </p>
         </div>
-        <div style="font-size: 64px;">🚀</div>
+        <div class="guide-hero-icon" style="font-size: 64px;">🚀</div>
       </div>
 
       <!-- Step 1: Lead Generation Channels -->
@@ -19,7 +19,7 @@ export function renderSalesGuide() {
           <span>📍 Step 1: Where to Find Potential Customers Today</span>
         </h3>
 
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-top: 8px;">
+        <div class="guide-features-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-top: 8px;">
           <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-light); padding: 18px; border-radius: 12px;">
             <div style="font-size: 16px; font-weight: 700; color: #FFF; margin-bottom: 6px;">1. Bark.com & AddToEvent Alerts</div>
             <p style="font-size: 13px; color: var(--text-muted); line-height: 1.5;">

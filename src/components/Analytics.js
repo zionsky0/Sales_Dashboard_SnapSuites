@@ -64,11 +64,11 @@ export function renderAnalytics(leads, settings) {
       </div>
 
       <!-- Breakdown Grids -->
-      <div style="display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 24px;">
+      <div class="analytics-breakdown-grid">
         <!-- Lead Source ROI Table -->
         <div style="background: var(--bg-card); border: 1px solid var(--border-glass); border-radius: var(--radius-xl); padding: 24px; display: flex; flex-direction: column; gap: 16px;">
           <h3 style="font-size: 18px; font-weight: 700; color: #FFF;">🎯 Lead Channels ROI Breakdown</h3>
-          <div style="overflow-x: auto;">
+          <div class="table-responsive" style="overflow-x: auto;">
             <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 13px;">
               <thead>
                 <tr style="border-bottom: 1px solid var(--border-light); color: var(--text-muted); font-size: 11px; text-transform: uppercase;">

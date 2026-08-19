@@ -58,7 +58,7 @@ export function renderPlaybook(activeCategory = 'all') {
         </div>
       </div>
 
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 24px;">
+      <div class="playbook-grid">
         <!-- Column 1: Fast Outreach & Response Templates -->
         <div style="display: flex; flex-direction: column; gap: 16px;">
           <h3 style="font-size: 18px; font-weight: 700; color: var(--gold-light);">📤 Outreach & Response Scripts</h3>

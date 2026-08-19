@@ -137,7 +137,7 @@ export function renderHashtagScanner(
           1-click launchers to open live public buyer searches on Instagram, TikTok, Facebook, and Google:
         </p>
 
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px;">
+        <div class="scanner-launchers-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px;">
           ${REGIONAL_LAUNCHERS.map(launcher => `
             <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-light); border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 10px;">
               <div style="font-size: 15px; font-weight: 700; color: #FFF; display: flex; align-items: center; gap: 8px;">
@@ -182,7 +182,7 @@ export function renderHashtagScanner(
           </h3>
         </div>
 
-        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 20px;">
+        <div class="scanner-feed-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px;">
           ${liveResults.length === 0 ? `
             <div style="grid-column: 1 / -1; background: var(--bg-card); border: 1px dashed var(--border-light); padding: 40px; text-align: center; border-radius: var(--radius-lg); color: var(--text-muted);">
               <div style="font-size: 32px; margin-bottom: 10px;">🔄</div>
