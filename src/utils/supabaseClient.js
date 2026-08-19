@@ -201,17 +201,20 @@ export async function pushToSupabase(customUrl, customKey) {
 }
 
 /**
+ * Check if Supabase client is configured (via Settings or VITE_ environment variables)
+ */
+export function isSupabaseConfigured() {
+  return !!getSupabaseClient();
+}
+
+/**
  * Trigger debounced cloud push whenever local data changes
  */
 export function triggerSupabaseAutoPush() {
-  const settings = getStoredSettings();
-  const url = settings.supabaseUrl || (typeof import.meta !== 'undefined' && import.meta.env?.VITE_SUPABASE_URL) || '';
-  const key = settings.supabaseKey || (typeof import.meta !== 'undefined' && import.meta.env?.VITE_SUPABASE_ANON_KEY) || '';
-
-  if (url && key) {
+  if (isSupabaseConfigured()) {
     clearTimeout(window.__supabaseSyncTimer);
     window.__supabaseSyncTimer = setTimeout(() => {
-      pushToSupabase(url, key);
+      pushToSupabase();
     }, 400);
   }
 }

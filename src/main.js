@@ -32,6 +32,7 @@ import {
   pushToSupabase,
   triggerSupabaseAutoPush,
   subscribeToSupabaseRealtime,
+  isSupabaseConfigured,
   cleanSupabaseUrl,
   SUPABASE_SQL_SETUP
 } from './utils/supabaseClient.js';
@@ -112,9 +113,9 @@ async function init() {
 
   if (isAuthenticated()) {
     // 1. Supabase Cloud Sync (Primary)
-    if (settings.supabaseUrl && settings.supabaseKey) {
+    if (isSupabaseConfigured()) {
       try {
-        const res = await pullFromSupabase(settings.supabaseUrl, settings.supabaseKey);
+        const res = await pullFromSupabase();
         if (res.success && res.data) {
           leads = getStoredLeads();
           prospects = getStoredProspects();

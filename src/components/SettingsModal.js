@@ -52,10 +52,17 @@ export function renderSettingsModal(settings) {
               <div style="font-size: 13px; font-weight: 700; color: var(--gold-light); display: flex; align-items: center; gap: 6px;">
                 <span>⚡ 24/7 Cloud Sync (Supabase)</span>
               </div>
-              <span id="supabase-status-badge" class="badge" style="background: ${settings.supabaseUrl ? 'rgba(16,185,129,0.15)' : 'rgba(255,255,255,0.06)'}; color: ${settings.supabaseUrl ? 'var(--accent-success)' : 'var(--text-muted)'}; font-size: 10px;">
-                ${settings.supabaseUrl ? '● Connected' : '○ Local Storage'}
+              <span id="supabase-status-badge" class="badge" style="background: ${(settings.supabaseUrl || (typeof import.meta !== 'undefined' && import.meta.env?.VITE_SUPABASE_ANON_KEY)) ? 'rgba(16,185,129,0.15)' : 'rgba(255,255,255,0.06)'}; color: ${(settings.supabaseUrl || (typeof import.meta !== 'undefined' && import.meta.env?.VITE_SUPABASE_ANON_KEY)) ? 'var(--accent-success)' : 'var(--text-muted)'}; font-size: 10px;">
+                ${(typeof import.meta !== 'undefined' && import.meta.env?.VITE_SUPABASE_ANON_KEY) ? '● Auto-Synced (Vercel Global)' : (settings.supabaseUrl ? '● Connected' : '○ Local Storage')}
               </span>
             </div>
+
+            ${(typeof import.meta !== 'undefined' && import.meta.env?.VITE_SUPABASE_ANON_KEY) ? `
+              <div style="background: rgba(16,185,129,0.12); border: 1px solid rgba(16,185,129,0.3); border-radius: 8px; padding: 10px 12px; font-size: 12px; color: #6EE7B7; display: flex; align-items: center; gap: 8px;">
+                <span>☁️</span>
+                <div><strong>Global Cloud Sync Active:</strong> Pre-configured via Vercel environment variables. All sales reps and devices are automatically synchronized 24/7 with zero setup!</div>
+              </div>
+            ` : ''}
 
             <div class="form-group">
               <label class="form-label" style="font-size: 11px;">Supabase Project URL</label>
@@ -63,8 +70,8 @@ export function renderSettingsModal(settings) {
                 type="text" 
                 id="settings-supabase-url" 
                 class="form-control" 
-                value="${settings.supabaseUrl || ''}" 
-                placeholder="https://xyzabcdefg.supabase.co" 
+                value="${settings.supabaseUrl || (typeof import.meta !== 'undefined' && import.meta.env?.VITE_SUPABASE_URL) || 'https://yokejsxbmoffrskbrdnl.supabase.co'}" 
+                placeholder="https://yokejsxbmoffrskbrdnl.supabase.co" 
               />
             </div>
 
@@ -74,11 +81,11 @@ export function renderSettingsModal(settings) {
                 type="password" 
                 id="settings-supabase-key" 
                 class="form-control" 
-                value="${settings.supabaseKey || ''}" 
+                value="${settings.supabaseKey || (typeof import.meta !== 'undefined' && import.meta.env?.VITE_SUPABASE_ANON_KEY) || ''}" 
                 placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." 
               />
               <div style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">
-                Create a free project at <a href="https://supabase.com" target="_blank" rel="noopener noreferrer" style="color: var(--gold-primary);">supabase.com</a> → Project Settings → API.
+                Configured via <code>VITE_SUPABASE_ANON_KEY</code> in Vercel.
               </div>
             </div>
 
