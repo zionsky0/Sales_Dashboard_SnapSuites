@@ -31,6 +31,7 @@ import {
   pullFromSupabase,
   pushToSupabase,
   triggerSupabaseAutoPush,
+  cleanSupabaseUrl,
   SUPABASE_SQL_SETUP
 } from './utils/supabaseClient.js';
 
@@ -1003,7 +1004,7 @@ function attachEventListeners() {
     // Supabase Cloud Sync config
     const supabaseUrlInput = document.getElementById('settings-supabase-url')?.value?.trim() || '';
     const supabaseKeyInput = document.getElementById('settings-supabase-key')?.value?.trim() || '';
-    settings.supabaseUrl = supabaseUrlInput;
+    settings.supabaseUrl = cleanSupabaseUrl(supabaseUrlInput);
     settings.supabaseKey = supabaseKeyInput;
 
     const newUsername = document.getElementById('settings-new-username')?.value?.trim();

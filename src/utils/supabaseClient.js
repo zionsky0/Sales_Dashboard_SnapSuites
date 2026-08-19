@@ -33,12 +33,27 @@ create policy "Allow all operations" on snapsuites_data for all using (true) wit
 `;
 
 /**
+ * Sanitize and clean Supabase project URL (strips accidental /rest/v1/ suffix)
+ */
+export function cleanSupabaseUrl(rawUrl) {
+  if (!rawUrl || typeof rawUrl !== 'string') return '';
+  let url = rawUrl.trim();
+  if (!url.startsWith('http://') && !url.startsWith('https://')) {
+    url = 'https://' + url;
+  }
+  // Strip /rest/v1, /rest/v1/, or any trailing slashes
+  url = url.replace(/\/rest\/v1\/?$/i, '');
+  return url.replace(/\/+$/, '');
+}
+
+/**
  * Initialize or get active Supabase client instance
  */
 export function getSupabaseClient(customUrl, customKey) {
   const settings = getStoredSettings();
-  const url = customUrl || settings.supabaseUrl || (typeof import.meta !== 'undefined' && import.meta.env?.VITE_SUPABASE_URL) || '';
+  const rawUrl = customUrl || settings.supabaseUrl || (typeof import.meta !== 'undefined' && import.meta.env?.VITE_SUPABASE_URL) || '';
   const key = customKey || settings.supabaseKey || (typeof import.meta !== 'undefined' && import.meta.env?.VITE_SUPABASE_ANON_KEY) || '';
+  const url = cleanSupabaseUrl(rawUrl);
 
   if (!url || !key) {
     supabase = null;
@@ -46,7 +61,7 @@ export function getSupabaseClient(customUrl, customKey) {
   }
 
   try {
-    supabase = createClient(url.trim(), key.trim(), {
+    supabase = createClient(url, key.trim(), {
       auth: { persistSession: false }
     });
     return supabase;
@@ -60,13 +75,16 @@ export function getSupabaseClient(customUrl, customKey) {
 /**
  * Test connectivity with Supabase project
  */
-export async function testSupabaseConnection(url, anonKey) {
+export async function testSupabaseConnection(rawUrl, rawKey) {
+  const url = cleanSupabaseUrl(rawUrl);
+  const anonKey = rawKey ? rawKey.trim() : '';
+
   if (!url || !anonKey) {
     return { ok: false, message: 'Please provide both Supabase Project URL and Anon API Key.' };
   }
 
   try {
-    const client = createClient(url.trim(), anonKey.trim(), {
+    const client = createClient(url, anonKey, {
       auth: { persistSession: false }
     });
 
