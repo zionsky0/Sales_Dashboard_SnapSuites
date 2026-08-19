@@ -17,9 +17,11 @@ import {
   exportLeadsAsCSV 
 } from './utils/storage.js';
 
+import { isAuthenticated, login, logout, updateCredentials } from './utils/auth.js';
 import { PACKAGES, ADD_ONS, OUTREACH_TEMPLATES, INITIAL_SOCIAL_POSTS } from './data/initialData.js';
 
 import { renderHeader } from './components/Header.js';
+import { renderLoginGate } from './components/LoginGate.js';
 import { renderLeadPipeline } from './components/LeadPipeline.js';
 import { renderProspectingRadar } from './components/ProspectingRadar.js';
 import { renderSalesGuide } from './components/SalesGuide.js';
@@ -43,6 +45,10 @@ let settings = getStoredSettings();
 let socialPosts = getStoredSocialPosts();
 let directory = getStoredDirectory();
 let activeTab = 'directory';
+
+// Authentication State
+let loginErrorMessage = '';
+let isLoginLoading = false;
 
 // Directory Search & Filters
 let directorySearch = '';
@@ -86,6 +92,14 @@ function init() {
 function render() {
   const appContainer = document.getElementById('app');
   const modalRoot = document.getElementById('modal-root');
+
+  // Security Gate: Ensure user is logged in
+  if (!isAuthenticated()) {
+    modalRoot.innerHTML = '';
+    appContainer.innerHTML = renderLoginGate(loginErrorMessage, isLoginLoading);
+    attachLoginListeners();
+    return;
+  }
 
   // Render Header
   const headerHtml = renderHeader(leads, settings, activeTab);
@@ -912,13 +926,30 @@ function attachEventListeners() {
     window.print();
   });
 
+  // Logout Trigger
+  document.getElementById('btn-logout-trigger')?.addEventListener('click', () => {
+    if (confirm('Lock dashboard and log out?')) {
+      logout();
+      loginErrorMessage = '';
+      showToast('🔒 Dashboard locked. Logged out.');
+      render();
+    }
+  });
+
   // Settings Modal
-  document.getElementById('settings-form')?.addEventListener('submit', (e) => {
+  document.getElementById('settings-form')?.addEventListener('submit', async (e) => {
     e.preventDefault();
     settings.salesRepName = document.getElementById('settings-rep-name').value;
     settings.monthlyTarget = Number(document.getElementById('settings-monthly-target').value) || 3000;
     settings.defaultCommissionRate = Number(document.getElementById('settings-commission-rate').value) || 10;
     
+    const newUsername = document.getElementById('settings-new-username')?.value?.trim();
+    const newPassword = document.getElementById('settings-new-password')?.value;
+    if (newUsername || newPassword) {
+      await updateCredentials(newUsername, newPassword);
+      showToast('🔐 Login credentials updated!');
+    }
+
     saveSettings(settings);
     currentModal = null;
     showToast('⚙️ Settings saved!');
@@ -935,11 +966,11 @@ function attachEventListeners() {
   });
 
   document.getElementById('btn-reset-demo-data')?.addEventListener('click', () => {
-    if (confirm('Reset all leads and prospects to initial demo dataset?')) {
+    if (confirm('Reset all leads, directory and prospects to initial demo dataset?')) {
       const res = resetToInitialData();
       leads = res.leads;
       prospects = res.prospects;
-      saveRealPosts([]);
+      directory = res.directory;
       currentModal = null;
       showToast('🔄 Dataset reset to demo defaults.');
       render();
@@ -949,6 +980,55 @@ function attachEventListeners() {
   document.getElementById('btn-export-csv-settings')?.addEventListener('click', () => {
     exportLeadsAsCSV();
     showToast('📄 Leads exported as CSV!');
+  });
+}
+
+function attachLoginListeners() {
+  const form = document.getElementById('snapsuites-login-form');
+  if (form) {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const user = document.getElementById('login-username')?.value || '';
+      const pass = document.getElementById('login-password')?.value || '';
+      const remember = document.getElementById('login-remember-me')?.checked ?? true;
+
+      isLoginLoading = true;
+      loginErrorMessage = '';
+      render();
+
+      try {
+        const result = await login(user, pass, remember);
+        if (result.success) {
+          isLoginLoading = false;
+          loginErrorMessage = '';
+          confetti({ particleCount: 60, spread: 70, origin: { y: 0.6 } });
+          showToast('⚡ Welcome to SnapSuites VIP Portal!');
+          render();
+        } else {
+          isLoginLoading = false;
+          loginErrorMessage = result.error || 'Authentication failed.';
+          render();
+        }
+      } catch (err) {
+        isLoginLoading = false;
+        loginErrorMessage = 'Login error. Please try again.';
+        render();
+      }
+    });
+  }
+
+  document.getElementById('btn-toggle-password-visibility')?.addEventListener('click', () => {
+    const input = document.getElementById('login-password');
+    const toggleBtn = document.getElementById('btn-toggle-password-visibility');
+    if (input && toggleBtn) {
+      if (input.type === 'password') {
+        input.type = 'text';
+        toggleBtn.textContent = 'Hide';
+      } else {
+        input.type = 'password';
+        toggleBtn.textContent = 'Show';
+      }
+    }
   });
 }
 

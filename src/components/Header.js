@@ -32,6 +32,9 @@ export function renderHeader(leads, settings, activeTab) {
         <button class="btn btn-glass btn-icon" id="btn-export-trigger" title="Export Backup JSON/CSV">
           📥
         </button>
+        <button class="btn btn-glass btn-icon" id="btn-logout-trigger" title="Lock / Logout" style="border-color: rgba(239, 68, 68, 0.4); color: #FCA5A5;">
+          🔒
+        </button>
       </div>
     </header>
 

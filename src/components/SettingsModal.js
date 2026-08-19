@@ -1,9 +1,9 @@
 export function renderSettingsModal(settings) {
   return `
     <div class="modal-overlay active" id="settings-modal-overlay">
-      <div class="modal-container" style="max-width: 500px;">
+      <div class="modal-container" style="max-width: 520px;">
         <div class="modal-header">
-          <h3 class="modal-title">⚙️ Sales Rep Settings</h3>
+          <h3 class="modal-title">⚙️ Sales Rep & Security Settings</h3>
           <button class="modal-close-btn" id="btn-close-settings-modal">&times;</button>
         </div>
 
@@ -26,7 +26,27 @@ export function renderSettingsModal(settings) {
             </div>
           </div>
 
-          <div style="border-top: 1px solid var(--border-light); padding-top: 16px; margin-top: 8px;">
+          <!-- Password & Security Section -->
+          <div style="border-top: 1px solid var(--border-light); padding-top: 16px; margin-top: 4px; display: flex; flex-direction: column; gap: 10px;">
+            <div style="font-size: 13px; font-weight: 700; color: var(--gold-light); display: flex; align-items: center; gap: 6px;">
+              <span>🔐 Access Security & Password</span>
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label" style="font-size: 11px;">Change Login Username</label>
+              <input type="text" id="settings-new-username" class="form-control" placeholder="Leave blank to keep current" />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" style="font-size: 11px;">Change Login Password</label>
+              <input type="password" id="settings-new-password" class="form-control" placeholder="Enter new master password" />
+              <div style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">
+                You can also configure <code>VITE_AUTH_USERNAME</code> and <code>VITE_AUTH_PASSWORD</code> in Vercel.
+              </div>
+            </div>
+          </div>
+
+          <div style="border-top: 1px solid var(--border-light); padding-top: 16px; margin-top: 4px;">
             <div style="font-size: 13px; font-weight: 700; color: var(--gold-light); margin-bottom: 8px;">Data & Backup Tools</div>
             <div style="display: flex; gap: 8px;">
               <button type="button" class="btn btn-glass btn-sm" id="btn-reset-demo-data">
