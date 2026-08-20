@@ -46,15 +46,15 @@ export function cleanSupabaseUrl(rawUrl) {
   return url.replace(/\/+$/, '');
 }
 
-export const DEFAULT_SUPABASE_URL = 'https://yokejsxbmoffrskbrdnl.supabase.co';
+import { SUPABASE_CONFIG } from '../config/supabase.js';
 
 /**
  * Initialize or get active Supabase client instance
  */
 export function getSupabaseClient(customUrl, customKey) {
   const settings = getStoredSettings();
-  const rawUrl = customUrl || settings.supabaseUrl || (typeof import.meta !== 'undefined' && import.meta.env?.VITE_SUPABASE_URL) || DEFAULT_SUPABASE_URL;
-  const key = customKey || settings.supabaseKey || (typeof import.meta !== 'undefined' && import.meta.env?.VITE_SUPABASE_ANON_KEY) || '';
+  const rawUrl = customUrl || settings.supabaseUrl || SUPABASE_CONFIG.projectUrl || 'https://yokejsxbmoffrskbrdnl.supabase.co';
+  const key = customKey || settings.supabaseKey || SUPABASE_CONFIG.anonKey || '';
   const url = cleanSupabaseUrl(rawUrl);
 
   if (!url || !key) {

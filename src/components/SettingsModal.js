@@ -1,4 +1,10 @@
+import { SUPABASE_CONFIG } from '../config/supabase.js';
+
 export function renderSettingsModal(settings) {
+  const activeUrl = settings.supabaseUrl || SUPABASE_CONFIG.projectUrl || 'https://yokejsxbmoffrskbrdnl.supabase.co';
+  const activeKey = settings.supabaseKey || SUPABASE_CONFIG.anonKey || '';
+  const isCloudActive = !!activeKey;
+
   return `
     <div class="modal-overlay active" id="settings-modal-overlay">
       <div class="modal-container" style="max-width: 520px;">
@@ -19,29 +25,20 @@ export function renderSettingsModal(settings) {
           </div>
 
           <div class="form-group">
-            <label class="form-label">Default Sales Commission Rate (%)</label>
+            <label class="form-label">Default Commission Rate (%)</label>
             <input type="number" id="settings-commission-rate" class="form-control" value="${settings.defaultCommissionRate || 10}" required step="0.5" min="1" max="50" />
-            <div style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">
-              E.g., 10% commission on a £350 Birthday booking = £35 payout.
-            </div>
           </div>
 
-          <!-- Password & Security Section -->
-          <div style="border-top: 1px solid var(--border-light); padding-top: 16px; margin-top: 4px; display: flex; flex-direction: column; gap: 10px;">
-            <div style="font-size: 13px; font-weight: 700; color: var(--gold-light); display: flex; align-items: center; gap: 6px;">
-              <span>🔐 Access Security & Password</span>
-            </div>
-            
-            <div class="form-group">
-              <label class="form-label" style="font-size: 11px;">Change Login Username</label>
-              <input type="text" id="settings-new-username" class="form-control" placeholder="Leave blank to keep current" />
-            </div>
-
-            <div class="form-group">
-              <label class="form-label" style="font-size: 11px;">Change Login Password</label>
-              <input type="password" id="settings-new-password" class="form-control" placeholder="Enter new master password" />
-              <div style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">
-                You can also configure <code>VITE_AUTH_USERNAME</code> and <code>VITE_AUTH_PASSWORD</code> in Vercel.
+          <div style="border-top: 1px solid var(--border-light); padding-top: 16px; margin-top: 4px;">
+            <div style="font-size: 13px; font-weight: 700; color: var(--gold-light); margin-bottom: 8px;">🔐 Portal Access Credentials</div>
+            <div class="form-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+              <div class="form-group">
+                <label class="form-label" style="font-size: 11px;">Update Username</label>
+                <input type="text" id="settings-new-username" class="form-control" placeholder="Current: snapsuites" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" style="font-size: 11px;">Update Password</label>
+                <input type="password" id="settings-new-password" class="form-control" placeholder="New password" />
               </div>
             </div>
           </div>
@@ -52,17 +49,22 @@ export function renderSettingsModal(settings) {
               <div style="font-size: 13px; font-weight: 700; color: var(--gold-light); display: flex; align-items: center; gap: 6px;">
                 <span>⚡ 24/7 Cloud Sync (Supabase)</span>
               </div>
-              <span id="supabase-status-badge" class="badge" style="background: ${(settings.supabaseUrl || (typeof import.meta !== 'undefined' && import.meta.env?.VITE_SUPABASE_ANON_KEY)) ? 'rgba(16,185,129,0.15)' : 'rgba(255,255,255,0.06)'}; color: ${(settings.supabaseUrl || (typeof import.meta !== 'undefined' && import.meta.env?.VITE_SUPABASE_ANON_KEY)) ? 'var(--accent-success)' : 'var(--text-muted)'}; font-size: 10px;">
-                ${(typeof import.meta !== 'undefined' && import.meta.env?.VITE_SUPABASE_ANON_KEY) ? '● Auto-Synced (Vercel Global)' : (settings.supabaseUrl ? '● Connected' : '○ Local Storage')}
+              <span id="supabase-status-badge" class="badge" style="background: ${isCloudActive ? 'rgba(16,185,129,0.15)' : 'rgba(255,255,255,0.06)'}; color: ${isCloudActive ? 'var(--accent-success)' : 'var(--text-muted)'}; font-size: 10px;">
+                ${isCloudActive ? '● 24/7 Cloud Active' : '○ Local Storage Only'}
               </span>
             </div>
 
-            ${(typeof import.meta !== 'undefined' && import.meta.env?.VITE_SUPABASE_ANON_KEY) ? `
+            ${isCloudActive ? `
               <div style="background: rgba(16,185,129,0.12); border: 1px solid rgba(16,185,129,0.3); border-radius: 8px; padding: 10px 12px; font-size: 12px; color: #6EE7B7; display: flex; align-items: center; gap: 8px;">
                 <span>☁️</span>
-                <div><strong>Global Cloud Sync Active:</strong> Pre-configured via Vercel environment variables. All sales reps and devices are automatically synchronized 24/7 with zero setup!</div>
+                <div><strong>Global Cloud Sync Active:</strong> All leads, quotes, and venues are synced across all devices and sales reps in real time.</div>
               </div>
-            ` : ''}
+            ` : `
+              <div style="background: rgba(245,158,11,0.12); border: 1px solid rgba(245,158,11,0.3); border-radius: 8px; padding: 10px 12px; font-size: 12px; color: #FCD34D; display: flex; align-items: center; gap: 8px;">
+                <span>⚠️</span>
+                <div><strong>Cloud Key Needed:</strong> Add your Supabase Anon API key below (or in <code>src/config/supabase.js</code>) to enable cross-device sync.</div>
+              </div>
+            `}
 
             <div class="form-group">
               <label class="form-label" style="font-size: 11px;">Supabase Project URL</label>
@@ -70,7 +72,7 @@ export function renderSettingsModal(settings) {
                 type="text" 
                 id="settings-supabase-url" 
                 class="form-control" 
-                value="${settings.supabaseUrl || (typeof import.meta !== 'undefined' && import.meta.env?.VITE_SUPABASE_URL) || 'https://yokejsxbmoffrskbrdnl.supabase.co'}" 
+                value="${activeUrl}" 
                 placeholder="https://yokejsxbmoffrskbrdnl.supabase.co" 
               />
             </div>
@@ -81,17 +83,14 @@ export function renderSettingsModal(settings) {
                 type="password" 
                 id="settings-supabase-key" 
                 class="form-control" 
-                value="${settings.supabaseKey || (typeof import.meta !== 'undefined' && import.meta.env?.VITE_SUPABASE_ANON_KEY) || ''}" 
+                value="${activeKey}" 
                 placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." 
               />
-              <div style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">
-                Configured via <code>VITE_SUPABASE_ANON_KEY</code> in Vercel.
-              </div>
             </div>
 
             <div style="display: flex; gap: 8px; align-items: center;">
               <button type="button" class="btn btn-gold btn-sm" id="btn-test-supabase-connection" style="flex: 1;">
-                ⚡ Connect & Sync Supabase Now
+                ⚡ Test & Sync Supabase Now
               </button>
             </div>
             
